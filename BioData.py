@@ -5,20 +5,20 @@ from PyQt5.QtGui import QPixmap
 class HelloWorldWindow(QWidget):
     def __init__(self):
         super().__init__() # create default constructor for QWidget
-        self.initializeUI()
-    
+        self.initialize_ui()
 
-    def initializeUI(self):
+
+    def initialize_ui(self):
         """
         Initialize the window and display its contents to the screen.
         """
         self.setGeometry(100, 100, 400, 300)
         self.setWindowTitle('QLabel Example')
-        self.displayLabels()
+        self.display_labels()
         self.show()
 
 
-    def displayLabels(self):
+    def display_labels(self):
         """
         Display text and images using QLabels.
         Check to see if image files exist, if not throw an
@@ -40,8 +40,6 @@ class HelloWorldWindow(QWidget):
 
 # Run program
 if __name__ == '__main__':
-   app = QApplication(sys.argv)
-   window = HelloWorldWindow()
-   sys.exit(app.exec_())
-   
-
+    app = QApplication(sys.argv)
+    window = HelloWorldWindow()
+    sys.exit(app.exec_())
