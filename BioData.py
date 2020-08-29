@@ -27,7 +27,7 @@ class HelloWorldWindow(QWidget):
         text = QLabel(self)
         text.setText("Hello")
         text.move(105, 15)
-        image = "../images/world.png"
+        image = "./images/world.png"
         try:
             with open(image):
                 world_image = QLabel(self)
