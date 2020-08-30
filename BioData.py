@@ -3,8 +3,15 @@ from PyQt5.QtWidgets import QApplication, QWidget, QLabel
 from PyQt5.QtGui import QPixmap
 
 class HelloWorldWindow(QWidget):
+    """[summary]
+
+    Args:
+        QWidget ([type]): [description]
+    """
+
+
     def __init__(self):
-        super().__init__() # create default constructor for QWidget
+        super().__init__()
         self.initialize_ui()
 
 
