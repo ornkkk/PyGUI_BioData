@@ -1,6 +1,6 @@
 # Restaurant Managaement System
 # Import necessary modules
-from PyQt5.QtWidgets import (QApplication, QWidget, QLabel, QTextEdit, QLineEdit, QPushButton,
+from PyQt5.QtWidgets import (QApplication, QWidget, QLabel, QTextEdit, QLineEdit, QPushButton, QTabWidget,
                              QCheckBox, QGridLayout, QVBoxLayout, QHBoxLayout, QSpinBox, QFormLayout, QComboBox)
 from PyQt5.QtGui import QFont
 from PyQt5.QtCore import Qt
@@ -18,10 +18,7 @@ class RestaurantManagementApp(QWidget):
         """
         #self.setGeometry(50, 50, 250, 400)
         self.setWindowTitle("Restaurant Management App")
-        #main_grid = QGridLayout()
         self.mainWindow()
-       # self.displayUserInfo()
-        #main_grid.addWidget(customerInfo, 0, 0)
         self.showMaximized()
         #self.show()
 
@@ -74,20 +71,17 @@ class RestaurantManagementApp(QWidget):
         display_bill.setStyleSheet("background-color: White")
 
         #---------------------------- Menu Items -----------------------------------
-        menu_layout=QVBoxLayout()
-        self.items = {"item 1":[0,0], "item 2":[0,0], "item 3":[0,0], "item 4":[0,0], "item 5":[0,0], 
-                      "item 6":[0,0], "item 7":[0,0], "item 8":[0,0], "item 9":[0,0], "item 10":[0,0]}
-        for key in self.items.keys():
-            menuItems_layout=QHBoxLayout()
-            item_label = QLabel(key)
-            self.items[key][1]=QSpinBox()
-            self.items[key][1].setFixedWidth(75)
-            self.items[key][1].setRange(0,20)
-            self.items[key][1].setPrefix("Qty : ")
-            menuItems_layout.addWidget(item_label)
-            menuItems_layout.addWidget(self.items[key][1])
-            menu_layout.addLayout(menuItems_layout)
+        self.menu_tabs=QTabWidget()
+        self.menu1_tab = QWidget()
+        self.menu_tabs.addTab(self.menu1_tab, "Menu 1")
+        self.menu2_tab = QWidget()
+        self.menu_tabs.addTab(self.menu2_tab, "Menu 2")
 
+        self.display_menu1()
+        self.display_menu2()
+
+        menu_tab_layout = QHBoxLayout()
+        menu_tab_layout.addWidget(self.menu_tabs)
         #----------------------------- Buttons ----------------------------------------
         buttons_layout=QHBoxLayout()
         print_button = QPushButton('Print Bill', self)
@@ -107,9 +101,47 @@ class RestaurantManagementApp(QWidget):
         main_grid.addWidget(main_title, 0, 0, 1, 2)
         main_grid.addLayout(customer_layout, 1, 0)
         main_grid.addWidget(display_bill, 1, 1, 2, 1)
-        main_grid.addLayout(menu_layout, 2, 0)
+        main_grid.addLayout(menu_tab_layout, 2, 0)
         main_grid.addLayout(buttons_layout, 3, 1)
         self.setLayout(main_grid)
+
+
+    def display_menu1(self):
+        menu_layout=QVBoxLayout()
+        self.menu1_items = {"item 1":[100,0], "item 2":[100,0], "item 3":[100,0], "item 4":[100,0], "item 5":[100,0],
+                      "item 6":[100,0], "item 7":[100,0], "item 8":[100,0], "item 9":[100,0], "item 10":[100,0]}
+        for key in self.menu1_items.keys():
+            menuItems_layout=QHBoxLayout()
+            item_name = QLabel(key)
+            item_price = QLabel(u"\u20B9 " + str(self.menu1_items[key][0]) + ".00")
+            self.menu1_items[key][1]=QSpinBox()
+            self.menu1_items[key][1].setFixedWidth(75)
+            self.menu1_items[key][1].setRange(0,20)
+            self.menu1_items[key][1].setPrefix("Qty : ")
+            menuItems_layout.addWidget(item_name)
+            menuItems_layout.addWidget(item_price)
+            menuItems_layout.addWidget(self.menu1_items[key][1])
+            menu_layout.addLayout(menuItems_layout)
+        self.menu1_tab.setLayout(menu_layout)
+
+
+    def display_menu2(self):
+        menu_layout=QVBoxLayout()
+        self.menu2_items = {"item 11":[200,0], "item 12":[200,0], "item 13":[200,0], "item 14":[200,0], "item 15":[200,0],
+                      "item 16":[200,0], "item 17":[200,0], "item 18":[200,0], "item 19":[200,0], "item 20":[200,0]}
+        for key in self.menu2_items.keys():
+            menuItems_layout=QHBoxLayout()
+            item_name = QLabel(key)
+            item_price = QLabel(u"\u20B9 " + str(self.menu2_items[key][0]) + ".00")
+            self.menu2_items[key][1]=QSpinBox()
+            self.menu2_items[key][1].setFixedWidth(75)
+            self.menu2_items[key][1].setRange(0,20)
+            self.menu2_items[key][1].setPrefix("Qty : ")
+            menuItems_layout.addWidget(item_name)
+            menuItems_layout.addWidget(item_price)
+            menuItems_layout.addWidget(self.menu2_items[key][1])
+            menu_layout.addLayout(menuItems_layout)
+        self.menu2_tab.setLayout(menu_layout)
 
 
 # Run program
