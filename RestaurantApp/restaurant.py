@@ -1,9 +1,10 @@
 # Restaurant Managaement System
-# Import necessary modules
+
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
 from PyQt5.QtCore import *
 import sys
+
 
 class RestaurantManagementApp(QWidget):
     def __init__(self):
@@ -26,13 +27,10 @@ class RestaurantManagementApp(QWidget):
     def mainWindow(self):
         self.main_grid = QGridLayout()
         self.main_grid.setContentsMargins(25, 25, 25, 25)
+        self.setLayout(self.main_grid)
 
-        main_title = QLabel("Restaurant Management System")
-        main_title.setFont(QFont('Arial', 18))
-        main_title.setAlignment(Qt.AlignCenter)
-        main_title.resize(10, 10)
-        main_title.setFixedHeight(75)
-
+        #----------------------- Main Title ----------------------------------------
+        self.title()
         #----------------------- Customer Details ----------------------------------
         self.customer()
         #----------------------- Display Bill --------------------------------------
@@ -41,9 +39,15 @@ class RestaurantManagementApp(QWidget):
         self.menu()
         #----------------------- Buttons -------------------------------------------
         self.buttons()
-        #------------------------------ Main Grid -------------------------------------
+
+
+    def title(self):
+        main_title = QLabel("Restaurant Management System")
+        main_title.setFont(QFont('Arial', 18))
+        main_title.setAlignment(Qt.AlignCenter)
+        main_title.resize(10, 10)
+        main_title.setFixedHeight(75)
         self.main_grid.addWidget(main_title, 0, 0, 1, 2)
-        self.setLayout(self.main_grid)
 
 
     def customer(self):
