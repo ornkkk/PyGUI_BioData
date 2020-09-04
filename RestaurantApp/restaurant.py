@@ -1,7 +1,6 @@
 # Restaurant Managaement System
 # Import necessary modules
-from PyQt5.QtWidgets import (QApplication, QWidget, QLabel, QTextEdit, QLineEdit, QPushButton, QTabWidget,
-                             QCheckBox, QGridLayout, QVBoxLayout, QHBoxLayout, QSpinBox, QFormLayout, QComboBox, QFrame)
+from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
 from PyQt5.QtCore import *
 import sys
@@ -25,19 +24,30 @@ class RestaurantManagementApp(QWidget):
 
 
     def mainWindow(self):
-        main_grid = QGridLayout()
-        main_grid.setContentsMargins(25, 25, 25, 25)
+        self.main_grid = QGridLayout()
+        self.main_grid.setContentsMargins(25, 25, 25, 25)
 
         main_title = QLabel("Restaurant Management System")
         main_title.setFont(QFont('Arial', 18))
         main_title.setAlignment(Qt.AlignCenter)
         main_title.resize(10, 10)
         main_title.setFixedHeight(75)
-        #main_title.setStyleSheet("background-color: cyan")
+
+        #----------------------- Customer Details ----------------------------------
+        self.customer()
+        #----------------------- Display Bill --------------------------------------
+        self.bill()
+        #----------------------- Menu Items ----------------------------------------
+        self.menu()
+        #----------------------- Buttons -------------------------------------------
+        self.buttons()
+        #------------------------------ Main Grid -------------------------------------
+        self.main_grid.addWidget(main_title, 0, 0, 1, 2)
+        self.setLayout(self.main_grid)
 
 
-         #-------------------Customer Details----------------------------------------------
-        customer_frame = QFrame(self)
+    def customer(self):
+        customer_frame = QFrame()
         customer_frame.setObjectName("customerFrame")
         customer_frame.setStyleSheet("""QFrame#customerFrame{border-style: outset;
                                         border-width: 1px;
@@ -46,20 +56,18 @@ class RestaurantManagementApp(QWidget):
                                         color: black;}""")
         customer_layout = QFormLayout(customer_frame)
 
-        name = QLineEdit(customer_frame)
+        name = QLineEdit()
+        email = QLineEdit()
+        mobile = QLineEdit()
+
         name.setFixedWidth(500)
-
-        email = QLineEdit(customer_frame)
         email.setFixedWidth(500)
-
-        mobile = QLineEdit(customer_frame)
         mobile.setFixedWidth(250)
 
-        table_num = QComboBox(customer_frame)
+        table_num = QComboBox()
         table_num.addItems([str(i) for i in range(1,11)])
         table_num.setFixedWidth(50)
 
-        #customer_layout.addRow(title)
         customer_layout.addRow("Customer Name : ", name)
         customer_layout.addRow("Customer Email : ", email)
         customer_layout.addRow("Customer Mobile : ", mobile)
@@ -75,14 +83,20 @@ class RestaurantManagementApp(QWidget):
                                 border-width: 1px;
                                 border-radius: 5px;""")
 
-        #------------------------------ Display Bill ------------------------------------------------------------
-        display_bill = QLabel("Bill")
+        self.main_grid.addWidget(customer_frame, 1, 0)
+
+
+    def bill(self):
+        display_bill = QTextBrowser()
         display_bill.setFont(QFont('Arial', 12))
-        display_bill.setAlignment(Qt.AlignCenter)
+        #display_bill.setAlignment(Qt.AlignLeft | Qt.AlignTop)
         display_bill.setFixedWidth(1000)
         display_bill.setStyleSheet("background-color: white")
+        display_bill.setText("Display Bill")
+        self.main_grid.addWidget(display_bill, 1, 1, 2, 1)
 
-        #---------------------------- Menu Items -----------------------------------
+
+    def menu(self):
         menu_frame = QFrame()
         menu_frame.setObjectName("menuFrame")
         menu_frame.setStyleSheet("""QFrame#menuFrame{border-style: outset;
@@ -117,9 +131,14 @@ class RestaurantManagementApp(QWidget):
                             "item 6":[100,0], "item 7":[100,0], "item 8":[100,0], "item 9":[100,0], "item 10":[100,0]}
         self.menu2_items = {"item 11":[200,0], "item 12":[200,0], "item 13":[200,0], "item 14":[200,0], "item 15":[200,0],
                             "item 16":[200,0], "item 17":[200,0], "item 18":[200,0], "item 19":[200,0], "item 20":[200,0]}
+
         self.display_menu(self.menu1_items, self.menu1_tab)
         self.display_menu(self.menu2_items, self.menu2_tab)
-        #----------------------------- Buttons ----------------------------------------
+
+        self.main_grid.addWidget(menu_frame, 2, 0)
+
+
+    def buttons(self):
         buttons_layout=QHBoxLayout()
         print_button = QPushButton('Print Bill', self)
         #print_button.clicked.connect(self.buttonClicked)
@@ -133,14 +152,7 @@ class RestaurantManagementApp(QWidget):
         buttons_layout.addWidget(email_button)
         buttons_layout.addWidget(sms_button)
         buttons_layout.addWidget(reset_button)
-
-        #------------------------------ Main Grid -------------------------------------
-        main_grid.addWidget(main_title, 0, 0, 1, 2)
-        main_grid.addWidget(customer_frame, 1, 0)
-        main_grid.addWidget(display_bill, 1, 1, 2, 1)
-        main_grid.addWidget(menu_frame, 2, 0)
-        main_grid.addLayout(buttons_layout, 3, 1)
-        self.setLayout(main_grid)
+        self.main_grid.addLayout(buttons_layout, 3, 1)
 
 
     def display_menu(self, menu_items, menu_tab):
