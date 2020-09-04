@@ -6,7 +6,7 @@ from PyQt5.QtCore import *
 import sys
 
 
-class RestaurantManagementApp(QWidget):
+class RestaurantOrderPlacingApp(QWidget):
     def __init__(self):
         super().__init__()
         self.initializeUI()
@@ -42,7 +42,7 @@ class RestaurantManagementApp(QWidget):
 
 
     def title(self):
-        main_title = QLabel("Restaurant Management System")
+        main_title = QLabel("Restaurant Order Placing App")
         main_title.setFont(QFont('Arial', 18))
         main_title.setAlignment(Qt.AlignCenter)
         main_title.resize(10, 10)
@@ -64,28 +64,38 @@ class RestaurantManagementApp(QWidget):
         email = QLineEdit()
         mobile = QLineEdit()
 
+        name_prefix = QComboBox()
+        name_prefix.addItems(["Mr.", "Mrs.", "Miss."])
+        name_prefix.setFixedWidth(60)
+
         name.setFixedWidth(500)
         email.setFixedWidth(500)
         mobile.setFixedWidth(250)
 
         table_num = QComboBox()
-        table_num.addItems([str(i) for i in range(1,11)])
+        table_num.addItems(["-"]+[str(i) for i in range(1,11)])
         table_num.setFixedWidth(50)
 
-        customer_layout.addRow("Customer Name : ", name)
+        name_layout=QHBoxLayout()
+        name_layout.addWidget(name_prefix)
+        name_layout.addWidget(name)
+
+        customer_layout.addRow("Customer Name : ", name_layout)
         customer_layout.addRow("Customer Email : ", email)
         customer_layout.addRow("Customer Mobile : ", mobile)
         customer_layout.addRow("Table Number : ", table_num)
-        for wdgt in [name, email, mobile, table_num]:
-            customer_layout.labelForField(wdgt).setStyleSheet("""font: 20px 'Times New Roman';
-                                                                background-color: white;
-                                                                color: black;""")
-            wdgt.setStyleSheet("""font: 17px 'Times New Roman';
-                                background-color: white;
-                                color: black;
-                                border-style: outset;
-                                border-width: 1px;
-                                border-radius: 5px;""")
+        for wdgt in [name, email, mobile, table_num, name_layout, name_prefix]:
+            if wdgt not in (name, name_prefix):
+                customer_layout.labelForField(wdgt).setStyleSheet("""font: 20px 'Times New Roman';
+                                                                    background-color: white;
+                                                                    color: black;""")
+            if wdgt != name_layout:
+                    wdgt.setStyleSheet("""font: 17px 'Times New Roman';
+                                    background-color: white;
+                                    color: black;
+                                    border-style: outset;
+                                    border-width: 1px;
+                                    border-radius: 5px;""")
 
         self.main_grid.addWidget(customer_frame, 1, 0)
 
@@ -123,13 +133,15 @@ class RestaurantManagementApp(QWidget):
         self.menu_tabs.addTab(self.menu1_tab, "Menu 1")
         self.menu1_tab.setStyleSheet("""border-color: white;
                                         background-color: white;
-                                        color: black;""")
+                                        color: black;
+                                        font-size: 15px;""")
 
         self.menu2_tab = QWidget()
         self.menu_tabs.addTab(self.menu2_tab, "Menu 2")
         self.menu2_tab.setStyleSheet("""border-color: white;
                                         background-color: white;
-                                        color: black;""")
+                                        color: black;
+                                        font-size: 15px;""")
 
         self.menu1_items = {"item 1":[100,0], "item 2":[100,0], "item 3":[100,0], "item 4":[100,0], "item 5":[100,0],
                             "item 6":[100,0], "item 7":[100,0], "item 8":[100,0], "item 9":[100,0], "item 10":[100,0]}
@@ -145,18 +157,15 @@ class RestaurantManagementApp(QWidget):
     def buttons(self):
         buttons_layout=QHBoxLayout()
         print_button = QPushButton('Print Bill', self)
-        #print_button.clicked.connect(self.buttonClicked)
         email_button = QPushButton('Email Bill', self)
-        #print_button.clicked.connect(self.buttonClicked)
         sms_button = QPushButton('SMS Bill', self)
-        #print_button.clicked.connect(self.buttonClicked)
         reset_button = QPushButton('Reset', self)
+        done_button=QPushButton("Display Bill", self)
         #print_button.clicked.connect(self.buttonClicked)
-        buttons_layout.addWidget(print_button)
-        buttons_layout.addWidget(email_button)
-        buttons_layout.addWidget(sms_button)
-        buttons_layout.addWidget(reset_button)
-        self.main_grid.addLayout(buttons_layout, 3, 1)
+        for wdgt in [done_button, print_button, email_button, sms_button, reset_button]:
+            buttons_layout.addWidget(wdgt)
+            wdgt.setFixedWidth(200)
+        self.main_grid.addLayout(buttons_layout, 3, 0, 1, 2)
 
 
     def display_menu(self, menu_items, menu_tab):
@@ -179,5 +188,5 @@ class RestaurantManagementApp(QWidget):
 # Run program
 if __name__ == '__main__':
     app = QApplication(sys.argv)
-    window = RestaurantManagementApp()
+    window = RestaurantOrderPlacingApp()
     sys.exit(app.exec_())
